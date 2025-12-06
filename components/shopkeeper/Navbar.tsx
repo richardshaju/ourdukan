@@ -4,6 +4,14 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
+import { Space_Grotesk} from 'next/font/google';
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+});
+
+
 export default function ShopkeeperNavbar() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -19,7 +27,7 @@ export default function ShopkeeperNavbar() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/shopkeeper/dashboard" className="text-xl font-bold text-blue-600">
+              <Link href="/shopkeeper/dashboard" className={`text-xl font-bold text-blue-600 ${spaceGrotesk.className}`}>
                 OurDukan
               </Link>
             </div>

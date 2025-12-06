@@ -121,10 +121,15 @@ ${productPerformance
 Recent Orders: ${Math.min(5, orders.length)} most recent
 ${orders
   .slice(0, 5)
-  .map(
-    (o) =>
-      `- Order ${o._id.toString().slice(-8)}: $${o.total.toFixed(2)}, Status: ${o.status}, Customer: ${o.userId.email}`
-  )
+  .map((o) => {
+    const customerEmail = 
+      typeof o.userId === 'object' && 
+      o.userId !== null && 
+      'email' in o.userId 
+        ? (o.userId as { email: string }).email 
+        : 'N/A';
+    return `- Order ${o._id.toString().slice(-8)}: $${o.total.toFixed(2)}, Status: ${o.status}, Customer: ${customerEmail}`;
+  })
   .join('\n')}
 
 Provide 3-5 actionable insights and recommendations for improving business performance. Focus on:
