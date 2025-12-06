@@ -97,10 +97,10 @@ export default function CheckoutPage() {
             {cartItems.map((item) => (
               <div key={item.productId} className="flex justify-between items-center border-b pb-4">
                 <div>
-                  <p className="font-semibold">{item.product?.name}</p>
+                  <p className="font-semibold text-black">{item.product?.name}</p>
                   <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                 </div>
-                <p className="font-semibold">
+                <p className="font-semibold text-black">
                   ${((item.product?.price || 0) * item.quantity).toFixed(2)}
                 </p>
               </div>
@@ -112,15 +112,15 @@ export default function CheckoutPage() {
           <div className="space-y-4">
             <div className="flex justify-between">
               <span className="text-gray-600">Subtotal</span>
-              <span className="font-semibold">${getTotal().toFixed(2)}</span>
+              <span className="font-semibold text-black">${getTotal().toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Tax</span>
-              <span className="font-semibold">$0.00</span>
+              <span className="font-semibold text-black">$0.00</span>
             </div>
             <div className="border-t pt-4 flex justify-between text-lg">
-              <span className="font-semibold">Total</span>
-              <span className="font-bold">${getTotal().toFixed(2)}</span>
+              <span className="font-semibold text-black">Total</span>
+              <span className="font-bold text-black">${getTotal().toFixed(2)}</span>
             </div>
 
             <div className="mt-6 p-4 bg-blue-50 rounded-lg">

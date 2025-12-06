@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import FeedbackForm from '@/components/customer/FeedbackForm';
 
 interface OrderItem {
   productId: {
@@ -87,7 +88,7 @@ export default function OrdersPage() {
             </div>
 
             <div className="border-t pt-4">
-              <h4 className="font-semibold mb-2">Items:</h4>
+              <h4 className="font-semibold mb-2 text-black">Items:</h4>
               <ul className="space-y-1">
                 {order.items.map((item, idx) => (
                   <li key={idx} className="text-sm text-gray-600">
@@ -96,6 +97,14 @@ export default function OrdersPage() {
                 ))}
               </ul>
             </div>
+
+            {/* Feedback Form for Completed Orders */}
+            {order.status === 'completed' && (
+              <FeedbackForm
+                orderId={order._id}
+                shopName={order.shopId.name}
+              />
+            )}
           </Card>
         ))}
       </div>

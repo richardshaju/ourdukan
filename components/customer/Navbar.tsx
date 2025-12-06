@@ -20,7 +20,7 @@ const spaceGrotesk = Space_Grotesk({
 export default function CustomerNavbar() {
   const router = useRouter();
   const [location, setLocation] = useState<Location>({
-    name: 'Other',
+    name: 'Bengaluru',
     address: 'Sarjapur Marathahalli Road, Kaikondrahalli,...',
   });
 

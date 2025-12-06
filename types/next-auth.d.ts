@@ -4,6 +4,7 @@ declare module 'next-auth' {
   interface User {
     role: 'shopkeeper' | 'customer';
     id: string;
+    name: string;
   }
 
   interface Session {
@@ -11,6 +12,7 @@ declare module 'next-auth' {
       id: string;
       email: string;
       role: 'shopkeeper' | 'customer';
+      name: string;
     };
   }
 }
@@ -19,6 +21,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     role: 'shopkeeper' | 'customer';
     id: string;
+    name: string;
   }
 }
 

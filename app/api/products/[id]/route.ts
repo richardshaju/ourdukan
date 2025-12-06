@@ -19,7 +19,7 @@ export async function PUT(
     await connectDB();
 
     const { id } = await params;
-    const product = await Product.findById(id).populate('shopId');
+    const product = await Product.findById(id);
 
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
@@ -66,7 +66,7 @@ export async function DELETE(
     await connectDB();
 
     const { id } = await params;
-    const product = await Product.findById(id).populate('shopId');
+    const product = await Product.findById(id);
 
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });

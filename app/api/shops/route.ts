@@ -1,6 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Shop from '@/lib/models/Shop';
+import Feedback from '@/lib/models/Feedback';
+
+// Check if a shop qualifies as Elite class
+// Elite class: 3+ ratings (more than 5 total)
+async function isEliteShop(shopId: string): Promise<boolean> {
+  try {
+    const feedbacks = await Feedback.find({ shopId, rating: { $gte: 3 } });
+    console.log('Feedbacks:', feedbacks.length);
+    return feedbacks.length >= 5;
+  } catch (error) {
+    console.error('Error checking Elite status:', error);
+    return false;
+  }
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,12 +29,23 @@ export async function GET(request: NextRequest) {
       .select('name address location rewardRate')
       .sort({ createdAt: -1 });
 
+    // Check Elite status for all shops
+    const shopsWithEliteStatus = await Promise.all(
+      shops.map(async (shop) => {
+        const isElite = await isEliteShop(shop._id.toString());
+        return {
+          ...shop.toObject(),
+          isElite,
+        };
+      })
+    );
+
     // If location is provided, calculate distances and sort by proximity
     if (lat && lng) {
       const userLat = parseFloat(lat);
       const userLng = parseFloat(lng);
 
-      const shopsWithDistance = shops.map((shop) => {
+      const shopsWithDistance = shopsWithEliteStatus.map((shop) => {
         const distance = calculateDistance(
           userLat,
           userLng,
@@ -28,7 +53,7 @@ export async function GET(request: NextRequest) {
           shop.location.lng
         );
         return {
-          ...shop.toObject(),
+          ...shop,
           distance,
         };
       });
@@ -39,7 +64,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(shopsWithDistance);
     }
 
-    return NextResponse.json(shops);
+    return NextResponse.json(shopsWithEliteStatus);
   } catch (error) {
     console.error('Error fetching shops:', error);
     return NextResponse.json(

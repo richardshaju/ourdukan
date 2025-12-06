@@ -129,15 +129,15 @@ export default function CartPage() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                      className="w-8 h-8 rounded border border-gray-300 hover:bg-gray-100"
+                      className="w-8 h-8 rounded border text-black   border-gray-300 hover:bg-gray-100"
                     >
                       -
                     </button>
-                    <span className="w-12 text-center">{item.quantity}</span>
+                    <span className="w-12 text-center text-black">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                       disabled={item.quantity >= (item.product?.stock || 0)}
-                      className="w-8 h-8 rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50"
+                      className="w-8 h-8 rounded border text-black border-gray-300 hover:bg-gray-100 disabled:opacity-50"
                     >
                       +
                     </button>
@@ -151,7 +151,7 @@ export default function CartPage() {
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t">
-                <p className="text-right font-semibold">
+                <p className="text-right font-semibold text-black ">
                   Subtotal: ${((item.product?.price || 0) * item.quantity).toFixed(2)}
                 </p>
               </div>
@@ -161,19 +161,19 @@ export default function CartPage() {
 
         <div className="lg:col-span-1">
           <Card>
-            <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+            <h2 className="text-xl font-semibold mb-4 text-black">Order Summary</h2>
             <div className="space-y-2 mb-4">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
-                <span className="font-semibold">${getTotal().toFixed(2)}</span>
+                <span className="font-semibold text-black">${getTotal().toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Tax</span>
-                <span className="font-semibold">$0.00</span>
+                <span className="font-semibold text-black">$0.00</span>
               </div>
               <div className="border-t pt-2 flex justify-between text-lg">
-                <span className="font-semibold">Total</span>
-                <span className="font-bold">${getTotal().toFixed(2)}</span>
+                <span className="font-semibold text-black">Total</span>
+                <span className="font-bold text-black">${getTotal().toFixed(2)}</span>
               </div>
             </div>
             <Button

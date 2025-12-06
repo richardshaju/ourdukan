@@ -9,14 +9,27 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
+    const session = await getServerSession(authOptions);
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search');
     const shopId = searchParams.get('shopId');
 
     const query: any = {};
-    if (shopId) {
+    
+    // If user is a shopkeeper, automatically filter by their shop
+    if (session && session.user.role === 'shopkeeper') {
+      const shop = await Shop.findOne({ ownerId: session.user.id });
+      if (shop) {
+        query.shopId = shop._id;
+      } else {
+        // If shopkeeper has no shop, return empty array
+        return NextResponse.json([]);
+      }
+    } else if (shopId) {
+      // For customers or unauthenticated users, use shopId from query if provided
       query.shopId = shopId;
     }
+    
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },

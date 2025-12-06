@@ -9,6 +9,7 @@ import Input from '@/components/ui/Input';
 export default function RegisterPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -31,28 +32,42 @@ export default function RegisterPage() {
       return;
     }
 
+    if (!formData.name || formData.name.trim().length === 0) {
+      setError('Name is required');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
+      const requestBody = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        password: formData.password,
+        role: formData.role,
+      };
+
+      console.log('Sending registration request:', { ...requestBody, password: '***' });
+
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          role: formData.role,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
+        console.error('Registration failed:', data);
         setError(data.error || 'Registration failed');
+        setIsLoading(false);
         return;
       }
 
+      console.log('Registration successful:', data);
       router.push('/login');
     } catch (err) {
+      console.error('Registration error:', err);
       setError('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
@@ -83,6 +98,17 @@ export default function RegisterPage() {
             </div>
           )}
           <div className="space-y-4">
+            <Input
+              label="Name"
+              type="text"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              required
+              autoComplete="name"
+              className='text-black'
+            />
             <Input
               label="Email address"
               type="email"

@@ -2,14 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 export default function BottomNavigation() {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const router = useRouter();
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -31,10 +29,6 @@ export default function BottomNavigation() {
     };
   }, []);
 
-  const handleSignOut = async () => {
-    await signOut({ redirect: false });
-    router.push('/login');
-  };
 
   const isActive = (path: string) => {
     if (path === '/search') {
@@ -171,10 +165,14 @@ export default function BottomNavigation() {
           <span className="text-xs mt-1 font-medium">Rewards</span>
         </Link>
 
-        {/* Profile/Sign Out */}
-        <button
-          onClick={handleSignOut}
-          className="flex flex-col items-center justify-center flex-1 h-full text-gray-500"
+        {/* Profile */}
+        <Link
+          href="/profile"
+          className={`flex flex-col items-center justify-center flex-1 h-full ${
+            isActive('/profile')
+              ? 'text-purple-600'
+              : 'text-gray-500'
+          }`}
         >
           <svg
             width="24"
@@ -199,7 +197,7 @@ export default function BottomNavigation() {
             />
           </svg>
           <span className="text-xs mt-1 font-medium">Profile</span>
-        </button>
+        </Link>
       </div>
     </nav>
   );
