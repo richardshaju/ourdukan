@@ -232,7 +232,7 @@ Provide a comprehensive summary that includes:
 Format as clear, well-structured paragraphs with bullet points for recommendations.`;
 
       try {
-        const feedbackModel = gemini.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const feedbackModel = gemini.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
         const feedbackResult = await feedbackModel.generateContent(feedbackPrompt);
         const feedbackResponse = await feedbackResult.response;
         feedbackSummary = feedbackResponse.text() || 'Unable to generate feedback summary at this time.';
@@ -285,7 +285,7 @@ Provide 3-5 actionable insights and recommendations for improving business perfo
 
 Format as clear, concise bullet points.`;
 
-    const model = gemini.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = gemini.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
 
     const fullPrompt = `You are a helpful business analyst providing actionable insights for local shopkeepers.
 

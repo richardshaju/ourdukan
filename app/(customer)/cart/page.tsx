@@ -34,6 +34,7 @@ export default function CartPage() {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     
     if (cart.length === 0) {
+      setCartItems([]);
       setIsLoading(false);
       return;
     }
@@ -49,6 +50,7 @@ export default function CartPage() {
       setCartItems(itemsWithProducts);
     } catch (error) {
       console.error('Error loading cart:', error);
+      setCartItems([]);
     } finally {
       setIsLoading(false);
     }
@@ -60,10 +62,17 @@ export default function CartPage() {
       return;
     }
 
+    // Get stock from current cartItems state (which has product data)
+    const currentItem = cartItems.find(item => item.productId === productId);
+    const maxStock = currentItem?.product?.stock || 0;
+    
+    // Clamp the quantity to available stock
+    const clampedQuantity = Math.min(newQuantity, maxStock);
+
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const updatedCart = cart.map((item: CartItem) =>
       item.productId === productId
-        ? { ...item, quantity: Math.min(newQuantity, item.product?.stock || 0) }
+        ? { ...item, quantity: clampedQuantity }
         : item
     );
     localStorage.setItem('cart', JSON.stringify(updatedCart));
@@ -129,7 +138,8 @@ export default function CartPage() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                      className="w-8 h-8 rounded border text-black   border-gray-300 hover:bg-gray-100"
+                      disabled={item.quantity <= 1}
+                      className="w-8 h-8 rounded border text-black border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       -
                     </button>
@@ -144,7 +154,7 @@ export default function CartPage() {
                   </div>
                   <button
                     onClick={() => removeItem(item.productId)}
-                    className="text-red-600 hover:text-red-800"
+                    className="text-red-600 hover:text-red-800 font-medium px-3 py-1 rounded hover:bg-red-50 transition-colors"
                   >
                     Remove
                   </button>

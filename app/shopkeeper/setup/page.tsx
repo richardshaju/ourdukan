@@ -40,7 +40,7 @@ export default function ShopSetupPage() {
         return;
       }
 
-      router.push('/dashboard');
+      router.push('/shopkeeper/dashboard');
     } catch (err) {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -82,29 +82,6 @@ export default function ShopSetupPage() {
             className='text-black'
 
           />
-
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="Latitude (Mock)"
-              type="number"
-              step="any"
-              value={formData.lat}
-              onChange={(e) => setFormData({ ...formData, lat: e.target.value })}
-              required
-              className='text-black'
-
-            />
-            <Input
-              label="Longitude (Mock)"
-              type="number"
-              step="any"
-              value={formData.lng}
-              onChange={(e) => setFormData({ ...formData, lng: e.target.value })}
-              required
-              className='text-black'
-
-            />
-          </div>
 
           <Input
             label="Reward Rate (points per currency unit, e.g., 0.1 = 1 point per 10 units)"
