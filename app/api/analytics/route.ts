@@ -285,7 +285,7 @@ Provide 3-5 actionable insights and recommendations for improving business perfo
 
 Format as clear, concise bullet points.`;
 
-    const model = gemini.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = gemini.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
 
     const fullPrompt = `You are a helpful business analyst providing actionable insights for local shopkeepers.
 
